@@ -1,10 +1,11 @@
-import {Control, FORM_DIRECTIVES} from 'angular2/common';  
-import {Component, Output, Input, EventEmitter} from 'angular2/core';  
-import 'rxjs/Rx';
+import {Control} from 'angular2/common';  
+import {Component, EventEmitter} from 'angular2/core';  
+
+import {ArtistDetailComponent} from './artist.detail';
 
 @Component({
   selector: 'spotify-search',
-  directives: [FORM_DIRECTIVES],
+  directives: [ArtistDetailComponent],
   inputs: ['results'],
   outputs: ['searchEvent'],
   template: `
@@ -13,9 +14,10 @@ import 'rxjs/Rx';
       [ngFormControl]="searchBox" 
       placeholder="Search Spotify artist" />
 
-    <div *ngFor="let artists of results | async">
-      {{ artists.name }} -- Popularity {{ artists.popularity }}
-    </div>
+    <div *ngFor="let artist of results | async">
+		  {{ artist.name }} ({{ artist.popularity }})
+          <artist-detail [artist]="artist"></artist-detail>
+	</div>
   `
 })
 export class SpotifySearch {
